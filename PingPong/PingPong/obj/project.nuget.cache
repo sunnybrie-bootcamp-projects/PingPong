@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "QaEZfe9JYgyWufEmANfcUk1+9pozt14w5kmY5hpBDWQPwAhB3CvnAfQNhnKHAb6QAXT9Fci3BxX2JxjFzf5kYw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\intern\\Desktop\\Repos\\PingPong\\PingPong\\PingPong\\PingPong.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\intern\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512"
+  ],
+  "logs": []
+}
