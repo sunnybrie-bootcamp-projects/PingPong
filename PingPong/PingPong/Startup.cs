@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PingPong.Models;
 
 namespace PingPong
 {
@@ -15,15 +13,22 @@ namespace PingPong
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddRazorPages();
+            services.AddDbContext<PingPongDataContext>(options =>
+                {
+                    var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+                    options.UseSqlServer("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +55,7 @@ namespace PingPong
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

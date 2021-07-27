@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace PingPong.Models
 {
-    public class User
+    public class Player
     {
         public int id { get; set; }
         public string username { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string dateJoined { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string date_joined { get; set; }
     }
     public class Team
     {
