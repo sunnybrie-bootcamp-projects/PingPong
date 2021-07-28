@@ -23,15 +23,17 @@ namespace PingPong
         [Route("")]
         public IActionResult Index()
         {
-            Player[] playerList = _db.Players.ToArray();
-            Console.WriteLine(playerList);
+            var dataArr = _db.Players.ToArray();
 
-           /* List<Player> playerList = new List<Player>();
+            List<Player> playerList = new List<Player>();
+
+            for(int i = 0; i < dataArr.Length; i++)
+            {
+                Player player = dataArr[i];
+                playerList.Add(player);
+            }
             
-
-             playerList = _db.Query<Player>("Select * From players").ToList();*/
-           
-            return View(playerList);
+            return View("Index", playerList.First());
         }
     }
 }
