@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,7 @@ namespace PingPong
         {
             services.AddMvc();
             services.AddRazorPages();
-            services.AddDbContext<PingPongDataContext>(options =>
+            services.AddDbContext<PingPongContext>(options =>
                 {
                     var connectionString = configuration.GetConnectionString("DefaultConnection");
 

@@ -68,3 +68,6 @@ C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\PingPong.csproj.AssemblyReference.cache
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\bin\Debug\net5.0\Dapper.dll
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\bin\Debug\net5.0\Humanizer.dll
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
