@@ -78,6 +78,9 @@ namespace PingPong.Models
             {
                 entity.ToTable("players");
 
+                entity.HasIndex(e => e.Username, "UQ__players__F3DBC572BBF9E480")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DateJoined)
@@ -91,6 +94,11 @@ namespace PingPong.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("first_name");
+
+                entity.Property(e => e.ImageUrl)
+                    .HasColumnType("text")
+                    .HasColumnName("image_url")
+                    .HasDefaultValueSql("('https://cdn0.iconfinder.com/data/icons/streamline-emoji-1/48/018-slightly-smiling-face-256.png')");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
@@ -107,6 +115,9 @@ namespace PingPong.Models
             modelBuilder.Entity<Team>(entity =>
             {
                 entity.ToTable("teams");
+
+                entity.HasIndex(e => e.Teamname, "UQ__teams__A97CE74621BF8768")
+                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
