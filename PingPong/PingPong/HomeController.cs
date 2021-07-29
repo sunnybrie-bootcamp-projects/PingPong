@@ -36,7 +36,7 @@ namespace PingPong
             return View("Index", playerList.First());
         }
 
-        [Route("players")]
+        [Route("players", Name = "players")]
         public IActionResult PlayerBoard()
         {
             var dataArr = _db.Players.ToArray();
@@ -49,8 +49,7 @@ namespace PingPong
                 playerList.Add(player);
             }
 
-            return View("Index", playerList.First());
-            return View("");
+            return View("Players", playerList);
         }
     }
 }
