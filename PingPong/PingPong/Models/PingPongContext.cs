@@ -36,7 +36,6 @@ namespace PingPong.Models
 
             modelBuilder.Entity<Game>(entity =>
             {
-                entity.HasNoKey();
 
                 entity.ToTable("games");
 
