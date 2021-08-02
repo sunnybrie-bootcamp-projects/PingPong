@@ -19,6 +19,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Games
+        [Route("games", Name = "games")]
         public async Task<IActionResult> Index()
         {
             var pingPongContext = _context.Games.Include(g => g.TeamANavigation).Include(g => g.TeamBNavigation).Include(g => g.VictorNavigation);

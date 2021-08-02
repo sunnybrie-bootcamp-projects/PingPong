@@ -36,7 +36,7 @@ namespace PingPong
             return View("Index", playerList.First());
         }
 
-        [Route("players", Name = "players")]
+        
         public IActionResult PlayerBoard()
         {
             var dataArr = _db.Players.ToArray();

@@ -19,6 +19,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Players
+        [Route("players", Name = "players")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Players.ToListAsync());

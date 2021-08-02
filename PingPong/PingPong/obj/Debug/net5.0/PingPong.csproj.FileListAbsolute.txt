@@ -156,3 +156,8 @@ C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Teams\Details.cshtml.g.cs
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Teams\Edit.cshtml.g.cs
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Teams\Index.cshtml.g.cs
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Create.cshtml.g.cs
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Delete.cshtml.g.cs
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Details.cshtml.g.cs
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Edit.cshtml.g.cs
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Index.cshtml.g.cs
