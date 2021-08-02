@@ -40,6 +40,8 @@ namespace PingPong.Models
 
                 entity.ToTable("games");
 
+                entity.Property(e => e.Id).HasColumnName("id");
+
                 entity.Property(e => e.Date)
                     .IsRequired()
                     .IsRowVersion()

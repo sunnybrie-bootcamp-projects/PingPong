@@ -20,7 +20,7 @@ namespace PingPong
             _db = db;
         }
 
-        [Route("")]
+        [Route("", Name = "home")]
         public IActionResult Index()
         {
             var dataArr = _db.Players.ToArray();

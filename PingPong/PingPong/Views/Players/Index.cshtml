@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<PingPong.Models.Player>
 
 @{
-    ViewData["Title"] = "Player List";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Player List</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,9 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Username)
             </th>
@@ -27,16 +24,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateJoined)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                <img class="profilePhoto" src=@item.ImageUrl />
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Username)
             </td>
@@ -49,7 +45,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DateJoined)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageUrl)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
