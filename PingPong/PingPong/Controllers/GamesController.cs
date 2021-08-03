@@ -27,6 +27,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Games/Details/5
+        [Route("games/{id:}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +49,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Games/Create
+        [Route("games/create")]
         public IActionResult Create()
         {
             ViewData["TeamA"] = new SelectList(_context.Teams, "Id", "Teamname");
@@ -61,6 +63,7 @@ namespace PingPong.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("games/create")]
         public async Task<IActionResult> Create([Bind("Id,TeamA,TeamB,WinScore,LoseScore,Victor,Date")] Game game)
         {
             if (ModelState.IsValid)
@@ -76,6 +79,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Games/Edit/5
+        [Route("games/edit/{id:}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +103,7 @@ namespace PingPong.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("games/edit/{id:}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TeamA,TeamB,WinScore,LoseScore,Victor,Date")] Game game)
         {
             if (id != game.Id)
@@ -133,6 +138,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Games/Delete/5
+        [Route("games/delete/{id:}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,6 +162,7 @@ namespace PingPong.Controllers
         // POST: Games/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("games/delete/{id:}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var game = await _context.Games.FindAsync(id);

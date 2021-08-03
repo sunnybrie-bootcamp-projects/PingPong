@@ -27,6 +27,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Teams/Details/5
+        [Route("teams/{id:}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +48,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Teams/Create
+        [Route("teams/create")]
         public IActionResult Create()
         {
             ViewData["PlayerA"] = new SelectList(_context.Players, "Id", "FirstName");
@@ -73,6 +75,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Teams/Edit/5
+        [Route("teams/edit/{id:}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +98,7 @@ namespace PingPong.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("teams/edit/{id:}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Teamname,DateFormed,PlayerA,PlayerB")] Team team)
         {
             if (id != team.Id)
@@ -128,6 +132,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Teams/Delete/5
+        [Route("teams/delete/{id:}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,6 +155,7 @@ namespace PingPong.Controllers
         // POST: Teams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("teams/delete/{id:}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var team = await _context.Teams.FindAsync(id);
