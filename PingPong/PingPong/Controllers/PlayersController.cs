@@ -26,6 +26,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Players/Details/5
+        [Route("players/{id:}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +45,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Players/Create
+        [Route("players/create")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace PingPong.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("players/create")]
         public async Task<IActionResult> Create([Bind("Id,Username,FirstName,LastName,DateJoined,ImageUrl")] Player player)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Players/Edit/5
+        [Route("players/edit/{id:}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace PingPong.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("players/edit/{id:}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Username,FirstName,LastName,DateJoined,ImageUrl")] Player player)
         {
             if (id != player.Id)
@@ -117,6 +122,7 @@ namespace PingPong.Controllers
         }
 
         // GET: Players/Delete/5
+        [Route("players/delete/{id:}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace PingPong.Controllers
         // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("players/delete/{id:}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _context.Players.FindAsync(id);

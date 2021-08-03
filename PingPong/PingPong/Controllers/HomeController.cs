@@ -36,20 +36,5 @@ namespace PingPong
             return View("Index", playerList.First());
         }
 
-        
-        public IActionResult PlayerBoard()
-        {
-            var dataArr = _db.Players.ToArray();
-
-            List<Player> playerList = new List<Player>();
-
-            for (int i = 0; i < dataArr.Length; i++)
-            {
-                Player player = dataArr[i];
-                playerList.Add(player);
-            }
-
-            return View("Players", playerList);
-        }
     }
 }
