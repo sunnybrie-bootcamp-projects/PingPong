@@ -36,7 +36,6 @@ namespace PingPong.Models
 
             modelBuilder.Entity<Game>(entity =>
             {
-
                 entity.ToTable("games");
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -58,19 +57,19 @@ namespace PingPong.Models
                 entity.Property(e => e.WinScore).HasColumnName("win_score");
 
                 entity.HasOne(d => d.TeamANavigation)
-                    .WithMany()
+                    .WithMany(p => p.GameTeamANavigations)
                     .HasForeignKey(d => d.TeamA)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_games_teams");
 
                 entity.HasOne(d => d.TeamBNavigation)
-                    .WithMany()
+                    .WithMany(p => p.GameTeamBNavigations)
                     .HasForeignKey(d => d.TeamB)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_games_teams1");
 
                 entity.HasOne(d => d.VictorNavigation)
-                    .WithMany()
+                    .WithMany(p => p.GameVictorNavigations)
                     .HasForeignKey(d => d.Victor)
                     .HasConstraintName("FK_games_teams2");
             });

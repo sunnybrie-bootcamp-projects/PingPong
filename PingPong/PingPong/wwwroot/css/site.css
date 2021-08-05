@@ -3,6 +3,8 @@ for details on configuring this project to bundle and minify static web assets. 
 
 :root {
     --shadow: .5em .5em .75em darkslategray;
+    --subfont: 'Balsamiq Sans', cursive;
+    --displayfont: 'Permanent Marker', cursive;
 }
 
 a.navbar-brand {
@@ -55,11 +57,24 @@ button.accept-policy {
   line-height: inherit;
 }
 
+/* TYPOGRAPHY */
+h1 {
+    font-family: var(--displayfont);
+    color: lightskyblue;
+}
+
+h2, h3, h4, thead, nav {
+    font-family: var(--subfont);
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
+  
+  color: darkslateblue;
 }
 
 body {
@@ -69,8 +84,9 @@ body {
 }
 
 main {
-    background-color: ghostwhite;
+    padding: 1em;
     border-radius: 1em 1em 1em;
+    background-color: ghostwhite;
     box-shadow: var(--shadow);
 }
 

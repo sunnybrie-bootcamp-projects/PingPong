@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PingPong.Models;
+using Dapper;
+using Microsoft.Data.SqlClient;
 
 namespace PingPong.Controllers
 {
@@ -106,11 +108,11 @@ namespace PingPong.Controllers
         [Route("games/edit/{id:}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TeamA,TeamB,WinScore,LoseScore,Victor,Date")] Game game)
         {
-            if (id != game.Id)
-            {
-                return NotFound();
-            }
-
+             if (id != game.Id)
+             {
+                 return NotFound();
+             }
+            /*
             if (ModelState.IsValid)
             {
                 try
@@ -118,7 +120,7 @@ namespace PingPong.Controllers
                     _context.Update(game);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
                     if (!GameExists(game.Id))
                     {
@@ -134,7 +136,18 @@ namespace PingPong.Controllers
             ViewData["TeamA"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamA);
             ViewData["TeamB"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamB);
             ViewData["Victor"] = new SelectList(_context.Teams, "Id", "Teamname", game.Victor);
-            return View(game);
+            return View(game);*/
+
+            using (var connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                await connection.OpenAsync();
+                var sqlStatement = @"
+UPDATE games 
+SET  team_a = " + game.TeamA +
+",team_b = " + game.TeamB + ",win_score = " + game.WinScore + ",lose_score = " + game.LoseScore + ",victor = " + game.Victor + "WHERE Id = " + id;
+                await connection.ExecuteAsync(sqlStatement,game);
+            }
+            return Ok();
         }
 
         // GET: Games/Delete/5
