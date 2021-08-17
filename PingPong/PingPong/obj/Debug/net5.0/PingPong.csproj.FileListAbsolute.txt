@@ -161,3 +161,4 @@ C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Details.cshtml.g.cs
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Edit.cshtml.g.cs
 C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\obj\Debug\net5.0\Razor\Views\Games\Index.cshtml.g.cs
+C:\Users\intern\Desktop\Repos\PingPong\PingPong\PingPong\bin\Debug\net5.0\Dapper.Contrib.dll

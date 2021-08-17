@@ -12,8 +12,8 @@ namespace PingPong.Models
         public int? WinScore { get; set; }
         public int? LoseScore { get; set; }
         public int? Victor { get; set; }
-        public byte[] Date { get; set; }
         public int Id { get; set; }
+        public DateTime? Date { get; set; }
 
         public virtual Team TeamANavigation { get; set; }
         public virtual Team TeamBNavigation { get; set; }

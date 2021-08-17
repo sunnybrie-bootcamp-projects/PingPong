@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PingPong.Models;
-using Dapper;
 using Microsoft.Data.SqlClient;
+using Dapper;
+using Dapper.Contrib.Extensions;
+using System.Data;
 
 namespace PingPong.Controllers
 {
@@ -24,8 +26,34 @@ namespace PingPong.Controllers
         [Route("games", Name = "games")]
         public async Task<IActionResult> Index()
         {
-            var pingPongContext = _context.Games.Include(g => g.TeamANavigation).Include(g => g.TeamBNavigation).Include(g => g.VictorNavigation);
-            return View(await pingPongContext.ToListAsync());
+            //Entity Framework Method (working)
+          /*  var pingPongContext = _context.Games.Include(g => g.TeamANavigation).Include(g => g.TeamBNavigation).Include(g => g.VictorNavigation);
+            List<Game> gamesList = await pingPongContext.ToListAsync();
+
+            gamesList = gamesList.OrderByDescending(o => o.Date).ToList();
+
+            return View(gamesList);*/
+
+            //Dapper.Contrib GetAll() Method (not working, doesn't return all info?)
+            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                connection.Open();
+                /*var games = connection.GetAll<Game>()
+                    .ToList();*/
+
+                var games = connection.Query<Game>("SELECT id, team_a FROM games;");
+
+                return View(games);
+            }
+
+            //Dapper QueryMultiple() Method (not working, doesn't return all column info)
+            /* using (var connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+             {
+                 connection.Open();
+                 using var multi = connection.QueryMultiple("SELECT * FROM games;");
+                 var gamesList = multi.Read<Game>().ToList();
+                 return View(gamesList);
+             }*/
         }
 
         // GET: Games/Details/5
@@ -70,8 +98,16 @@ namespace PingPong.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(game);
+                /*_context.Add(game);
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));*/
+
+                using (var connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+                {
+                    connection.Open();
+                    var sqlStatement = $"INSERT INTO games (team_a, team_b,win_score,lose_score,victor) VALUES({game.TeamA},{game.TeamB},{game.WinScore},{game.LoseScore},{game.Victor})";
+                    connection.Execute(sqlStatement);
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TeamA"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamA);
@@ -112,42 +148,14 @@ namespace PingPong.Controllers
              {
                  return NotFound();
              }
-            /*
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(game);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException)
-                {
-                    if (!GameExists(game.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TeamA"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamA);
-            ViewData["TeamB"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamB);
-            ViewData["Victor"] = new SelectList(_context.Teams, "Id", "Teamname", game.Victor);
-            return View(game);*/
 
             using (var connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
             {
                 await connection.OpenAsync();
-                var sqlStatement = @"
-UPDATE games 
-SET  team_a = " + game.TeamA +
-",team_b = " + game.TeamB + ",win_score = " + game.WinScore + ",lose_score = " + game.LoseScore + ",victor = " + game.Victor + "WHERE Id = " + id;
+                var sqlStatement = $"UPDATE games SET  team_a = {game.TeamA},team_b = {game.TeamB},win_score = {game.WinScore},lose_score = {game.LoseScore},victor = {game.Victor} WHERE Id = {id}";
                 await connection.ExecuteAsync(sqlStatement,game);
             }
-            return Ok();
+            return RedirectToAction(nameof(Index)); 
         }
 
         // GET: Games/Delete/5

@@ -41,10 +41,9 @@ namespace PingPong.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Date)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken()
-                    .HasColumnName("date");
+                    .HasColumnType("datetime")
+                    .HasColumnName("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.LoseScore).HasColumnName("lose_score");
 
@@ -84,10 +83,9 @@ namespace PingPong.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DateJoined)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken()
-                    .HasColumnName("date_joined");
+                    .HasColumnType("datetime")
+                    .HasColumnName("date_joined")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -122,9 +120,9 @@ namespace PingPong.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DateFormed)
-                    .IsRowVersion()
-                    .IsConcurrencyToken()
-                    .HasColumnName("date_formed");
+                    .HasColumnType("datetime")
+                    .HasColumnName("date_formed")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.PlayerA).HasColumnName("player_a");
 

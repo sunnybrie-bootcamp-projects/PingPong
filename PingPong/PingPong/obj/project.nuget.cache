@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "tbDiCmdSjDCbfB2C2C+gDtxbdOfGz4WHrLGrf57tjJP+OWsgHBqOYeb4vfV9SHKBbjbwyyVmOFY7iy7pDZHQ1w==",
+  "dgSpecHash": "vZGmGDP5vyyJwx9CcByjlguhr5OFT/kPTS7vgA3qhamx59rfYR8keOJSVoGdmEZfPraLrwUmqCdW1pfEuGSnEg==",
   "success": true,
   "projectFilePath": "C:\\Users\\intern\\Desktop\\Repos\\PingPong\\PingPong\\PingPong\\PingPong.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\intern\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
+    "C:\\Users\\intern\\.nuget\\packages\\dapper.contrib\\2.0.78\\dapper.contrib.2.0.78.nupkg.sha512",
     "C:\\Users\\intern\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\intern\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\intern\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

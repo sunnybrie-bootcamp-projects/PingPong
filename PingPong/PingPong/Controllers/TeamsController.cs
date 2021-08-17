@@ -44,6 +44,39 @@ namespace PingPong.Controllers
                 return NotFound();
             }
 
+            var teamGames = await _context.Games
+                .Where(g => (g.TeamA == id || g.TeamB == id)).ToListAsync();
+
+            int teamWins = teamGames.Count(g => g.Victor == id);
+
+            int teamLosses = teamGames.Count(g => g.Victor != id);
+
+            var teamWinRatio = new { percentage = (teamWins / teamLosses), reducedTotal = $"{reduceFraction(teamWins, teamLosses)}", teamWins = teamWins, teamLosses = teamLosses };
+
+            ViewBag.teamWinRatio = teamWinRatio;
+            ViewBag.teamGames = teamGames;
+
+            static string reduceFraction(int x, int y)
+            {
+                int d;
+                d = __gcd(x, y);
+
+                x = x / d;
+                y = y / d;
+
+            return $"{x}:{y}";
+            }
+
+            static int __gcd(int a, int b)
+            {
+                if (b == 0)
+                    return a;
+                return __gcd(b, a % b);
+
+            }
+
+
+
             return View(team);
         }
 
