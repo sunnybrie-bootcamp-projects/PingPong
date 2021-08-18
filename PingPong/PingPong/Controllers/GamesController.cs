@@ -27,24 +27,24 @@ namespace PingPong.Controllers
         public async Task<IActionResult> Index()
         {
             //Entity Framework Method (working)
-          /*  var pingPongContext = _context.Games.Include(g => g.TeamANavigation).Include(g => g.TeamBNavigation).Include(g => g.VictorNavigation);
+            var pingPongContext = _context.Games.Include(g => g.TeamANavigation).Include(g => g.TeamBNavigation).Include(g => g.VictorNavigation);
             List<Game> gamesList = await pingPongContext.ToListAsync();
 
             gamesList = gamesList.OrderByDescending(o => o.Date).ToList();
 
-            return View(gamesList);*/
+            return View(gamesList);
 
             //Dapper.Contrib GetAll() Method (not working, doesn't return all info?)
-            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
-            {
-                connection.Open();
-                /*var games = connection.GetAll<Game>()
-                    .ToList();*/
+            /*         using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+                     {
+                         connection.Open();
+                         *//*var games = connection.GetAll<Game>()
+                             .ToList();*//*
 
-                var games = connection.Query<Game>("SELECT id, team_a FROM games;");
+                         var games = connection.Query<Game>("SELECT id, team_a FROM games;");
 
-                return View(games);
-            }
+                         return View(games);
+                     }*/
 
             //Dapper QueryMultiple() Method (not working, doesn't return all column info)
             /* using (var connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))

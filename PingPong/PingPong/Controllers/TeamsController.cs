@@ -51,7 +51,7 @@ namespace PingPong.Controllers
 
             int teamLosses = teamGames.Count(g => g.Victor != id);
 
-            var teamWinRatio = new { percentage = (teamWins / teamLosses), reducedTotal = $"{reduceFraction(teamWins, teamLosses)}", teamWins = teamWins, teamLosses = teamLosses };
+            var teamWinRatio = new { percentage = (float)((float)teamWins / (float)(teamLosses + (float)teamWins) * 100.00), reducedTotal = $"{reduceFraction(teamWins, teamLosses)}", teamWins = teamWins, teamLosses = teamLosses };
 
             ViewBag.teamWinRatio = teamWinRatio;
             ViewBag.teamGames = teamGames;
