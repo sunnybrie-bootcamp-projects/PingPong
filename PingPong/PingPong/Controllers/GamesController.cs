@@ -167,13 +167,26 @@ namespace PingPong.Controllers
         }
 
         // GET: Games/Create
-        [Route("games/create")]
-        public IActionResult Create()
+        [Route("games/create/{id:}")]
+        public IActionResult Create(int id)
         {
-            ViewData["TeamAId"] = new SelectList(_context.Teams, "Id", "Teamname");
-            ViewData["TeamBId"] = new SelectList(_context.Teams, "Id", "Teamname");
-            ViewData["VictorId"] = new SelectList(_context.Teams, "Id", "Teamname");
-            return View();
+            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                connection.Open();
+
+                var queryString = (id == 1) ? "SELECT id AS Id, teamname AS Teamname FROM teams WHERE player_b IS NULL;" : "SELECT id AS Id, teamname AS Teamname FROM teams WHERE player_b IS NOT NULL;";
+
+                var tList = connection.Query<Team>(queryString);
+                tList = tList.OrderBy(t => t.Teamname).ToList();
+
+                ViewData["TeamAId"] = new SelectList(tList, "Id", "Teamname");
+                ViewData["TeamBId"] = new SelectList(tList, "Id", "Teamname");
+                ViewData["VictorId"] = new SelectList(tList, "Id", "Teamname");
+
+                return View();
+
+            }
+            
         }
 
         // POST: Games/Create
