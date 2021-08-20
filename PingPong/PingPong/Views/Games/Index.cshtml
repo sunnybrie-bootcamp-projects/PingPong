@@ -3,17 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-@functions{
-    public static DateTime TimeStampToDateTime(double unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-        return dateTime;
-    }
-}
-
 <h1>Index</h1>
 
 <p>
@@ -23,22 +12,22 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamB)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.WinScore)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LoseScore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TeamANavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TeamBNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VictorNavigation)
+                @Html.DisplayNameFor(model => model.Victor)
             </th>
             <th></th>
         </tr>
@@ -47,22 +36,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeamA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeamB)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.WinScore)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LoseScore)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeamANavigation.Teamname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeamBNavigation.Teamname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VictorNavigation.Teamname)
+                @Html.DisplayFor(modelItem => item.Victor)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

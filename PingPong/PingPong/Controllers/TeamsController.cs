@@ -45,11 +45,11 @@ namespace PingPong.Controllers
             }
 
             var teamGames = await _context.Games
-                .Where(g => (g.TeamA == id || g.TeamB == id)).ToListAsync();
+                .Where(g => (g.TeamAId == id || g.TeamBId == id)).ToListAsync();
 
-            int teamWins = teamGames.Count(g => g.Victor == id);
+            int teamWins = teamGames.Count(g => g.VictorId == id);
 
-            int teamLosses = teamGames.Count(g => g.Victor != id);
+            int teamLosses = teamGames.Count(g => g.VictorId != id);
 
             var teamWinRatio = new { percentage = (float)((float)teamWins / (float)(teamLosses + (float)teamWins) * 100.00), reducedTotal = $"{reduceFraction(teamWins, teamLosses)}", teamWins = teamWins, teamLosses = teamLosses };
 

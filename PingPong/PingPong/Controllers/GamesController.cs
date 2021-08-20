@@ -17,35 +17,126 @@ namespace PingPong.Controllers
     {
         private readonly PingPongContext _context;
 
+        public IEnumerable<Game> Games { get; private set; }
+
         public GamesController(PingPongContext context)
         {
             _context = context;
+
+            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                connection.Open();
+
+                var queryString = $"SELECT g.id AS Id," +
+                        "g.date AS Date, " +
+                        "g.team_a AS TeamAId, " +
+                        "a.teamname AS TeamA, " +
+                        "g.team_b AS TeamBId, " +
+                        "b.teamname AS TeamB, " +
+                        "g.victor AS VictorId, " +
+                        "v.teamname AS Victor, " +
+                        "g.win_score AS WinScore, " +
+                        "g.lose_score AS LoseScore " +
+                      "FROM games AS g " +
+                    "INNER " +
+                      "JOIN teams AS a " +
+                        "ON a.id = g.team_a " +
+                    "INNER " +
+                      "JOIN teams AS b " +
+                        "ON b.id = g.team_b " +
+                    "INNER " +
+                      "JOIN teams AS v " +
+                        "ON v.id = g.victor;";
+
+                var gList = connection.Query<Game>(queryString);
+                gList = gList.OrderByDescending(o => o.Date).ToList();
+
+                Games = gList;
+            }
+
+
         }
+
+
 
         // GET: Games
         [Route("games", Name = "games")]
         public async Task<IActionResult> Index()
         {
+            return View(Games);
+
+            /*using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                connection.Open();
+
+                var queryString = $"SELECT g.id AS Id," +
+                        "g.date AS Date, " +
+                        "g.team_a AS TeamAId, " +
+                        "a.teamname AS TeamA, " +
+                        "g.team_b AS TeamBId, " +
+                        "b.teamname AS TeamB, " +
+                        "g.victor AS VictorId, " +
+                        "v.teamname AS Victor, " +
+                        "g.win_score AS WinScore, " +
+                        "g.lose_score AS LoseScore " +
+                      "FROM games AS g " +
+                    "INNER " +
+                      "JOIN teams AS a " +
+                        "ON a.id = g.team_a " +
+                    "INNER " +
+                      "JOIN teams AS b " +
+                        "ON b.id = g.team_b " +
+                    "INNER " +
+                      "JOIN teams AS v " +
+                        "ON v.id = g.victor;";
+
+                var gList = connection.Query<Game>(queryString);
+                gList = gList.OrderByDescending(o => o.Date).ToList();
+
+                this.games = gList;
+
+                return View(gList);
+            }*/
+
             //Entity Framework Method (working)
             /*var pingPongContext = _context.Games.Include(g => g.TeamANavigation).Include(g => g.TeamBNavigation).Include(g => g.VictorNavigation);
             List<Game> gamesList = await pingPongContext.ToListAsync();
 
-            gamesList = gamesList.OrderByDescending(o => o.Date).ToList();
-
             return View(gamesList);*/
 
             //Dapper.Contrib GetAll() Method (not working, doesn't return all info?)
-            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            /*using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
             {
                 connection.Open();
-                
+
                 //var games = connection.GetAll<Game>()
                 //    .ToList();
 
-                var games = connection.Query<Game>("SELECT * FROM games;");
+                var queryString = $"SELECT g.id AS Id," +
+                        "g.date AS Date, " +
+                        "g.team_a AS TeamAId, " +
+                        "a.teamname AS TeamA, " +
+                        "g.team_b AS TeamBId, " +
+                        "b.teamname AS TeamB, " +
+                        "g.victor AS VictorId, " +
+                        "v.teamname AS Victor, " +
+                        "g.win_score AS WinScore, " +
+                        "g.lose_score AS LoseScore " +
+                      "FROM games AS g " +
+                    "INNER " +
+                      "JOIN teams AS a " +
+                        "ON a.id = g.team_a " +
+                    "INNER " +
+                      "JOIN teams AS b " +
+                        "ON b.id = g.team_b " +
+                    "INNER " +
+                      "JOIN teams AS v " +
+                        "ON v.id = g.victor;";
 
-                return View(games);
-            }
+                var gamesList = connection.Query<Game>(queryString);
+
+                return View(gamesList);
+            }*/
 
             //Dapper QueryMultiple() Method (not working, doesn't return all column info)
             /* using (var connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
@@ -66,11 +157,7 @@ namespace PingPong.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Games
-                .Include(g => g.TeamANavigation)
-                .Include(g => g.TeamBNavigation)
-                .Include(g => g.VictorNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var game = Games.Where(g => g.Id == id).ToList().First();
             if (game == null)
             {
                 return NotFound();
@@ -83,9 +170,9 @@ namespace PingPong.Controllers
         [Route("games/create")]
         public IActionResult Create()
         {
-            ViewData["TeamA"] = new SelectList(_context.Teams, "Id", "Teamname");
-            ViewData["TeamB"] = new SelectList(_context.Teams, "Id", "Teamname");
-            ViewData["Victor"] = new SelectList(_context.Teams, "Id", "Teamname");
+            ViewData["TeamAId"] = new SelectList(_context.Teams, "Id", "Teamname");
+            ViewData["TeamBId"] = new SelectList(_context.Teams, "Id", "Teamname");
+            ViewData["VictorId"] = new SelectList(_context.Teams, "Id", "Teamname");
             return View();
         }
 
@@ -111,9 +198,9 @@ namespace PingPong.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeamA"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamA);
-            ViewData["TeamB"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamB);
-            ViewData["Victor"] = new SelectList(_context.Teams, "Id", "Teamname", game.Victor);
+            ViewData["TeamAId"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamA);
+            ViewData["TeamBId"] = new SelectList(_context.Teams, "Id", "Teamname", game.TeamB);
+            ViewData["VictorId"] = new SelectList(_context.Teams, "Id", "Teamname", game.Victor);
             return View(game);
         }
 
@@ -169,9 +256,9 @@ namespace PingPong.Controllers
             }
 
             var game = await _context.Games
-                .Include(g => g.TeamANavigation)
-                .Include(g => g.TeamBNavigation)
-                .Include(g => g.VictorNavigation)
+                .Include(g => g.TeamA)
+                .Include(g => g.TeamB)
+                .Include(g => g.Victor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {

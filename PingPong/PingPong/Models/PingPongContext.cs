@@ -55,7 +55,7 @@ namespace PingPong.Models
 
                 entity.Property(e => e.WinScore).HasColumnName("win_score");
 
-                entity.HasOne(d => d.TeamANavigation)
+                /*entity.HasOne(d => d.TeamANavigation)
                     .WithMany(p => p.GameTeamANavigations)
                     .HasForeignKey(d => d.TeamA)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -70,7 +70,7 @@ namespace PingPong.Models
                 entity.HasOne(d => d.VictorNavigation)
                     .WithMany(p => p.GameVictorNavigations)
                     .HasForeignKey(d => d.Victor)
-                    .HasConstraintName("FK_games_teams2");
+                    .HasConstraintName("FK_games_teams2");*/
             });
 
             modelBuilder.Entity<Player>(entity =>
