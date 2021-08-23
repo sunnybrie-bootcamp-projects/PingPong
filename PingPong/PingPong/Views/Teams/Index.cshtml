@@ -19,10 +19,10 @@
                 @Html.DisplayNameFor(model => model.DateFormed)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlayerANavigation)
+                @Html.DisplayNameFor(model => model.PlayerA)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlayerBNavigation)
+                @Html.DisplayNameFor(model => model.PlayerB)
             </th>
             <th></th>
         </tr>
@@ -37,10 +37,10 @@
                 @Html.DisplayFor(modelItem => item.DateFormed)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlayerANavigation.FirstName)
+                @Html.DisplayFor(modelItem => item.PlayerA.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlayerBNavigation.FirstName)
+                @Html.DisplayFor(modelItem => item.PlayerB.FirstName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PingPong.Models;
 
@@ -13,17 +16,47 @@ namespace PingPong.Controllers
     {
         private readonly PingPongContext _context;
 
+        public IEnumerable<Team> Teams { get; private set; }
+
         public TeamsController(PingPongContext context)
         {
             _context = context;
+
+            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                _context = context;
+                connection.Open();
+
+                var queryString = $"SELECT t.id AS Id," + 
+                    "t.teamname AS Teamname, " + 
+                    "t.date_formed AS DateFormed, " + 
+                    "t.player_a AS PlayerAI, " +
+                    "a.username AS PlayerA" +
+                    "t.player_b AS PlayerBId, " +
+                    "b.username AS PlayerB " + 
+                    "FROM teams AS t " + 
+                    "INNER " + 
+                    "JOIN players AS a" + 
+                    " ON a.id = t.player_a" +
+                    "INNER " +
+                    "JOIN players AS b" +
+                    " ON b.id = t.player_b" +
+                      "WHERE t.player_b IS NOT NULL;";
+
+                var tList = connection.Query<Team>(queryString);
+                tList = tList.OrderByDescending(t => t.Teamname).ToList();
+
+                Teams = tList;
+            }
+
+
         }
 
         // GET: Teams
         [Route("teams", Name = "teams")]
         public async Task<IActionResult> Index()
         {
-            var pingPongContext = _context.Teams.Include(t => t.PlayerANavigation).Include(t => t.PlayerBNavigation);
-            return View(await pingPongContext.ToListAsync());
+            return View(Teams);
         }
 
         // GET: Teams/Details/5
@@ -36,8 +69,8 @@ namespace PingPong.Controllers
             }
 
             var team = await _context.Teams
-                .Include(t => t.PlayerANavigation)
-                .Include(t => t.PlayerBNavigation)
+                .Include(t => t.PlayerA)
+                .Include(t => t.PlayerB)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (team == null)
             {
@@ -174,8 +207,8 @@ namespace PingPong.Controllers
             }
 
             var team = await _context.Teams
-                .Include(t => t.PlayerANavigation)
-                .Include(t => t.PlayerBNavigation)
+                .Include(t => t.PlayerA)
+                .Include(t => t.PlayerB)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (team == null)
             {

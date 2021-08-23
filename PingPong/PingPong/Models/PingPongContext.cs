@@ -134,7 +134,7 @@ namespace PingPong.Models
                     .IsUnicode(false)
                     .HasColumnName("teamname");
 
-                entity.HasOne(d => d.PlayerANavigation)
+                /*entity.HasOne(d => d.PlayerANavigation)
                     .WithMany(p => p.TeamPlayerANavigations)
                     .HasForeignKey(d => d.PlayerA)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -143,7 +143,7 @@ namespace PingPong.Models
                 entity.HasOne(d => d.PlayerBNavigation)
                     .WithMany(p => p.TeamPlayerBNavigations)
                     .HasForeignKey(d => d.PlayerB)
-                    .HasConstraintName("FK_teams_players");
+                    .HasConstraintName("FK_teams_players");*/
             });
 
             OnModelCreatingPartial(modelBuilder);
