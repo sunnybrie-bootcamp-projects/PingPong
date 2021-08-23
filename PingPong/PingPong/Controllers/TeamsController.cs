@@ -27,21 +27,7 @@ namespace PingPong.Controllers
                 _context = context;
                 connection.Open();
 
-                var queryString = $"SELECT t.id AS Id," + 
-                    "t.teamname AS Teamname, " + 
-                    "t.date_formed AS DateFormed, " + 
-                    "t.player_a AS PlayerAI, " +
-                    "a.username AS PlayerA" +
-                    "t.player_b AS PlayerBId, " +
-                    "b.username AS PlayerB " + 
-                    "FROM teams AS t " + 
-                    "INNER " + 
-                    "JOIN players AS a" + 
-                    " ON a.id = t.player_a" +
-                    "INNER " +
-                    "JOIN players AS b" +
-                    " ON b.id = t.player_b" +
-                      "WHERE t.player_b IS NOT NULL;";
+                var queryString = $"SELECT t.id AS Id, t.teamname AS Teamname, t.date_formed AS DateFormed, t.player_a AS PlayerAId, a.username AS PlayerA, t.player_b AS PlayerBId, b.username AS PlayerB FROM teams AS t INNER JOIN players AS a ON a.id = t.player_a INNER JOIN players AS b ON b.id = t.player_b WHERE t.player_b IS NOT NULL; ";
 
                 var tList = connection.Query<Team>(queryString);
                 tList = tList.OrderByDescending(t => t.Teamname).ToList();

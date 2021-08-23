@@ -20,8 +20,8 @@ namespace PingPong.Models
         public int? PlayerBId { get; set; }
         public DateTime? DateFormed { get; set; }
 
-        public virtual Player PlayerA { get; set; }
-        public virtual Player PlayerB { get; set; }
+        public virtual string PlayerA { get; set; }
+        public virtual string PlayerB { get; set; }
         public virtual ICollection<Game> GameTeamANavigations { get; set; }
         public virtual ICollection<Game> GameTeamBNavigations { get; set; }
         public virtual ICollection<Game> GameVictorNavigations { get; set; }
