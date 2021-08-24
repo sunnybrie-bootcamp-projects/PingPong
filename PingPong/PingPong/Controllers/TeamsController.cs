@@ -54,17 +54,43 @@ namespace PingPong.Controllers
                 return NotFound();
             }
 
-            var team = await _context.Teams
-                .Include(t => t.PlayerA)
-                .Include(t => t.PlayerB)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Team team = Teams.Where(t => t.Id == id).First();
+
             if (team == null)
             {
                 return NotFound();
             }
 
-            var teamGames = await _context.Games
-                .Where(g => (g.TeamAId == id || g.TeamBId == id)).ToListAsync();
+            var teamGames = new List<Game>(); 
+
+            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                connection.Open();
+
+                var queryString = $"SELECT g.id AS Id, " +
+                        "g.date AS Date, " +
+                        "g.team_a AS TeamAId, " +
+                        "a.teamname AS TeamA, " +
+                        "g.team_b AS TeamBId, " +
+                        "b.teamname AS TeamB, " +
+                        "g.victor AS VictorId, " +
+                        "v.teamname AS Victor, " +
+                        "g.win_score AS WinScore, " +
+                        "g.lose_score AS LoseScore " +
+                      "FROM games AS g " +
+                    "INNER " +
+                      "JOIN teams AS a " +
+                        "ON a.id = g.team_a " +
+                    "INNER " +
+                      "JOIN teams AS b " +
+                        "ON b.id = g.team_b " +
+                    "INNER " +
+                      "JOIN teams AS v " +
+                        "ON v.id = g.victor " +
+                        "WHERE g.team_a = {team.Id} OR g.team_b = {team.Id}";
+
+                teamGames = (List<Game>)connection.Query<Game>(queryString);
+            }
 
             int teamWins = teamGames.Count(g => g.VictorId == id);
 
