@@ -87,7 +87,7 @@ namespace PingPong.Controllers
                     "INNER " +
                       "JOIN teams AS v " +
                         "ON v.id = g.victor " +
-                        "WHERE g.team_a = {team.Id} OR g.team_b = {team.Id}";
+                        $"WHERE g.team_a = {team.Id} OR g.team_b = {team.Id}";
 
                 teamGames = (List<Game>)connection.Query<Game>(queryString);
             }
