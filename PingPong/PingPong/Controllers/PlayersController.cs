@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PingPong.Models;
 
@@ -13,16 +16,29 @@ namespace PingPong.Controllers
     {
         private readonly PingPongContext _context;
 
+        public IEnumerable<Player> Players { get; private set; }
+
         public PlayersController(PingPongContext context)
         {
             _context = context;
+
+            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
+            {
+                connection.Open();
+
+                var queryString = $"SELECT id AS Id, username AS Username, first_name AS FirstName, last_name AS LastName, date_joined AS DateJoined, image_url AS ImageUrl FROM players; ";
+                var pList = connection.Query<Player>(queryString);
+                pList = pList.OrderByDescending(p => p.Username).ToList();
+
+                Players = pList;
+            }
         }
 
         // GET: Players
         [Route("players", Name = "players")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Players.ToListAsync());
+            return View(Players);
         }
 
         // GET: Players/Details/5
