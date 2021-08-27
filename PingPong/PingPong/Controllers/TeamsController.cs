@@ -61,67 +61,6 @@ namespace PingPong.Controllers
                 return NotFound();
             }
 
-            var teamGames = new List<Game>(); 
-
-            using (IDbConnection connection = new SqlConnection("Data Source=DESKTOP-4JOHSKQ;Initial Catalog=PingPong;Integrated Security=True"))
-            {
-                connection.Open();
-
-                var queryString = $"SELECT g.id AS Id, " +
-                        "g.date AS Date, " +
-                        "g.team_a AS TeamAId, " +
-                        "a.teamname AS TeamA, " +
-                        "g.team_b AS TeamBId, " +
-                        "b.teamname AS TeamB, " +
-                        "g.victor AS VictorId, " +
-                        "v.teamname AS Victor, " +
-                        "g.win_score AS WinScore, " +
-                        "g.lose_score AS LoseScore " +
-                      "FROM games AS g " +
-                    "INNER " +
-                      "JOIN teams AS a " +
-                        "ON a.id = g.team_a " +
-                    "INNER " +
-                      "JOIN teams AS b " +
-                        "ON b.id = g.team_b " +
-                    "INNER " +
-                      "JOIN teams AS v " +
-                        "ON v.id = g.victor " +
-                        $"WHERE g.team_a = {team.Id} OR g.team_b = {team.Id}";
-
-                teamGames = (List<Game>)connection.Query<Game>(queryString);
-            }
-
-            int teamWins = teamGames.Count(g => g.VictorId == id);
-
-            int teamLosses = teamGames.Count(g => g.VictorId != id);
-
-            var teamWinRatio = new { percentage = (float)((float)teamWins / (float)(teamLosses + (float)teamWins) * 100.00), reducedTotal = $"{reduceFraction(teamWins, teamLosses)}", teamWins = teamWins, teamLosses = teamLosses };
-
-            ViewBag.teamWinRatio = teamWinRatio;
-            ViewBag.teamGames = teamGames;
-
-            static string reduceFraction(int x, int y)
-            {
-                int d;
-                d = __gcd(x, y);
-
-                x = x / d;
-                y = y / d;
-
-            return $"{x}:{y}";
-            }
-
-            static int __gcd(int a, int b)
-            {
-                if (b == 0)
-                    return a;
-                return __gcd(b, a % b);
-
-            }
-
-
-
             return View(team);
         }
 

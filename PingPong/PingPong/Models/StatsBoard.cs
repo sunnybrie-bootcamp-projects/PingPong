@@ -43,9 +43,9 @@ namespace PingPong.Models
                 if (isPlayer)
                 {
                     //For getting all teams the player is on
-                    var teamQueryString = $"SELECT id AS Id, teamname AS Teamname FROM teams WHERE player_b IS NOT NULL AND player_a = {player.Id} OR player_b = {player.Id};";
+                    var teamQueryString = $"SELECT id AS Id, teamname AS Teamname FROM teams WHERE player_b IS NOT NULL AND player_a = {id} OR player_b = {id};";
                     //For getting player's "single" team id
-                    var singleQueryString = $"SELECT id FROM teams WHERE player_b IS NULL AND player_a = {player.Id};";
+                    var singleQueryString = $"SELECT id FROM teams WHERE player_b IS NULL AND player_a = {id};";
 
                     //Get all teams player is on
                     var teamsList = connection.Query(teamQueryString);
@@ -136,7 +136,6 @@ namespace PingPong.Models
                     RecentGames = gamesList.OrderByDescending(g => g.Date).Take(5).ToList();
                 }
 
-               
             }
 
         }
@@ -160,8 +159,11 @@ namespace PingPong.Models
             int d;
             d = __gcd(x, y);
 
-            x = x / d;
-            y = y / d;
+            if (d != 0)
+            {
+                x = x / d;
+                y = y / d;
+            }
 
             return $"{x}:{y}";
         }
